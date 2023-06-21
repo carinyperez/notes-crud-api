@@ -15,6 +15,8 @@ provider:
 functions:
   createNote:
     handler: index.createNote
+    environment: 
+      NOTES_TABLE_NAME: !Ref notesTable
     iamRoleStatements: 
       - Effect: Allow
         Action: 
@@ -26,6 +28,13 @@ functions:
           path: "notes"
   updateNote:
     handler: index.updateNote
+    environment: 
+      NOTES_TABLE_NAME: !Ref notesTable
+    iamRoleStatements: 
+      - Effect: Allow
+        Action: 
+          - dynamodb:UpdateItem 
+        Resource: !GetAtt notesTable.Arn
     events:
       - http:
           method: put
