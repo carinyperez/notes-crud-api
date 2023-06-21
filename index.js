@@ -27,10 +27,6 @@ module.exports.createNote = async (event, context, callback) => {
   } catch (error) {
     callback(null, {statusCode: 500, body: JSON.stringify(error.message)})
   }
-  // return {
-  //   statusCode: 200,
-  //   body: JSON.stringify('Note created'),
-  // };
 };
 
 // @route /dev/notes/:id

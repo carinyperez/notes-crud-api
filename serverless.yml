@@ -7,16 +7,6 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: us-east-1
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:PutItem
-          Resource: !GetAtt notesTable.Arn
- 
-
-
 # enable access to createNote function via http 
 # to make this an http endpoint, we add an events section 
 # this events section ties our function to the API Gateway provided by AWS
@@ -46,7 +36,6 @@ functions:
           method: get
           path: "notes"
 plugins:
-  - serverless-iam-roles-per-function
 
 # you can add CloudFormation resource templates here
 resources:
