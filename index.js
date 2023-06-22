@@ -71,11 +71,19 @@ module.exports.updateNote = async (event, context, callback) => {
 // @route /dev/notes/:id
 // @desc Update a note 
 // @access Public 
-module.exports.deleteNote = async (event) => {
+module.exports.deleteNote = async (event, context,callback) => {
   let notesId = event.pathParameters.id; 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(`The note with id: ${notesId} has been deleted`)
+  try {
+    const params = {
+        TableName: NOTES_TABLE_NAME,
+        Key: { notesId},
+        ConditionExpression: 'attribute_exists(notesId)'
+    }
+    await documentClient.delete(params).promise()
+    callback(null, send(200, notesId))
+    
+  } catch (error) {
+    callback(null, send(500, error.message))
   }
 }
 
