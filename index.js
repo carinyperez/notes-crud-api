@@ -15,6 +15,7 @@ const send = (statusCode, data) => {
 // @access Public 
 
 module.exports.createNote = async (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false; 
   let data = JSON.parse(event.body);
   try {
     // create a new item in a table if it doesn't exist 
@@ -38,6 +39,7 @@ module.exports.createNote = async (event, context, callback) => {
 // @desc Update a note 
 // @access Public 
 module.exports.updateNote = async (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false; 
   let notesId = event.pathParameters.id; 
   let data = JSON.parse(event.body); 
   try {
@@ -72,6 +74,7 @@ module.exports.updateNote = async (event, context, callback) => {
 // @desc Update a note 
 // @access Public 
 module.exports.deleteNote = async (event, context,callback) => {
+  context.callbackWaitsForEmptyEventLoop = false; 
   let notesId = event.pathParameters.id; 
   try {
     const params = {
@@ -90,9 +93,16 @@ module.exports.deleteNote = async (event, context,callback) => {
 // @route /dev/notes
 // @desc Get all notes
 // @access Public 
-module.exports.getAllNotes = async (event) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify("All notes are returned")
+module.exports.getAllNotes = async (event, context, callback) => {
+  context.callbackWaitsForEmptyEventLoop = false; 
+  try {
+    const params = {
+      TableName: NOTES_TABLE_NAME
+    }
+    const notes = await documentClient.scan(params).promise()
+    callback(null, send(200, notes))
+    
+  } catch (error) {
+    callback(null, send(500, error.message))
   }
 }

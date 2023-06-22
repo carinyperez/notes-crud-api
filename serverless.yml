@@ -17,6 +17,7 @@ functions:
     handler: index.createNote
     environment: 
       NOTES_TABLE_NAME: !Ref notesTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     iamRoleStatements: 
       - Effect: Allow
         Action: 
@@ -30,6 +31,7 @@ functions:
     handler: index.updateNote
     environment: 
       NOTES_TABLE_NAME: !Ref notesTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     iamRoleStatements: 
       - Effect: Allow
         Action: 
@@ -43,6 +45,7 @@ functions:
     handler: index.deleteNote
     environment: 
       NOTES_TABLE_NAME: !Ref notesTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     iamRoleStatements: 
       - Effect: Allow 
         Action: 
@@ -54,6 +57,14 @@ functions:
           path: "notes/{id}"
   getAllNotes:
     handler: index.getAllNotes
+    environment: 
+      NOTES_TABLE_NAME: !Ref notesTable
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    iamRoleStatements:
+      - Effect: Allow 
+        Action: 
+          - dynamodb:Scan
+        Resource: !GetAtt notesTable.Arn
     events:
       - http:
           method: get
