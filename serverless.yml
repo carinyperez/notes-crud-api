@@ -13,6 +13,8 @@ provider:
 # to make this an http endpoint, we add an events section 
 # this events section ties our function to the API Gateway provided by AWS
 functions:
+  authorizer: 
+    handler: authorizer.handler
   createNote:
     handler: index.createNote
     environment: 
@@ -27,6 +29,7 @@ functions:
       - http:
           method: post
           path: "notes"
+          authorizer: authorizer 
   updateNote:
     handler: index.updateNote
     environment: 
@@ -41,6 +44,7 @@ functions:
       - http:
           method: put
           path: "notes/{id}"
+          authorizer: authorizer 
   deleteNote:
     handler: index.deleteNote
     environment: 
@@ -55,6 +59,7 @@ functions:
       - http:
           method: delete
           path: "notes/{id}"
+          authorizer: authorizer 
   getAllNotes:
     handler: index.getAllNotes
     environment: 
@@ -69,6 +74,7 @@ functions:
       - http:
           method: get
           path: "notes"
+          authorizer: authorizer 
 plugins: 
   - serverless-iam-roles-per-function
 # you can add CloudFormation resource templates here
