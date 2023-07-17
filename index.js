@@ -102,7 +102,6 @@ module.exports.deleteNote = async (event, context,callback) => {
 // @desc Get all notes
 // @access Public 
 module.exports.getAllNotes = async (event, context, callback) => {
-  console.log(JSON.stringify(event))
   context.callbackWaitsForEmptyEventLoop = false; 
   try {
     const params = {
