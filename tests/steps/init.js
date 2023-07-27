@@ -1,8 +1,7 @@
-'use strict'; 
+"use strict";
 
 const init = async () => {
-    require('dotenv').config(); 
-}
+  require("dotenv").config();
+};
 
-module.exports = init; 
-
+module.exports = init;
